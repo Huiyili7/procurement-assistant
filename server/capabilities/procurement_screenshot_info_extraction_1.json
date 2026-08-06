@@ -1,0 +1,74 @@
+{
+  "id": "procurement_screenshot_info_extraction_1",
+  "pluginKey": "@official-plugins/ai-image-to-json",
+  "pluginVersion": "1.0.14",
+  "name": "采购截图信息结构化提取",
+  "description": "从用户上传的采购商品截图中提取结构化采购信息，仅识别红框标注/红色箭头指向的内容，自动计算采购份数",
+  "icon": "",
+  "paramsSchema": {
+    "properties": {
+      "procurement_screenshot": {
+        "description": "采购商品截图（如淘宝/京东商品页面截图）",
+        "items": {
+          "type": "string"
+        },
+        "type": "array",
+        "format": "plugin-image-url"
+      }
+    },
+    "required": [
+      "procurement_screenshot"
+    ],
+    "type": "object"
+  },
+  "formValue": {
+    "images": "{{input.procurement_screenshot}}",
+    "jsonStructure": [
+      {
+        "paramType": "String",
+        "paramDescription": "物料的通用名称/类别名称，如O型圈、轴承、螺丝刀等，必填，无法识别返回空字符串",
+        "name": "itemName",
+        "required": true
+      },
+      {
+        "paramDescription": "规格型号，如外径6×2.4mm、304不锈钢材质、M5×10mm等，必填，无法识别返回空字符串",
+        "required": true,
+        "name": "itemBrandModel",
+        "paramType": "String"
+      },
+      {
+        "paramType": "String",
+        "paramDescription": "每份包含的个数，如单份包装内含20个则返回'20'，用户标注X份/X个时返回'1'，无法识别返回空字符串",
+        "required": true,
+        "name": "packageSize"
+      },
+      {
+        "paramDescription": "用户红框标注/红色箭头指向的采购总数量，如用户标注需要1000个则返回'1000'，无法识别返回空字符串",
+        "required": true,
+        "name": "annotatedQuantity",
+        "paramType": "String"
+      },
+      {
+        "paramDescription": "采购份数，用户标注X份/X个时直接返回'X'，存在每份含X个说明时=采购总数量÷每份包含个数，无法整除向上取整，无法计算返回空字符串",
+        "required": true,
+        "name": "purchasePortions",
+        "paramType": "String"
+      },
+      {
+        "name": "platform",
+        "required": true,
+        "paramType": "String",
+        "paramDescription": "购买平台，天猫logo/字样→天猫，淘宝/88VIP→淘宝，京东→京东，1688→1688，拼多多→拼多多，无法识别返回空字符串"
+      }
+    ],
+    "modelID": "88",
+    "modelParams": {
+      "temperature": 0.5,
+      "maxTokens": 8192
+    },
+    "prompt": "你是专业的采购信息提取专家，仅从用户上传的商品截图中提取红框标注或红色箭头指向的内容，严格忽略所有未标注的商品选项和无关信息。请按照给定的字段要求提取信息，严格遵循以下规则：\n\n一、数量字段填写规则：\n1. 若用户标注\"X份\"（如\"9份\"）：annotatedQuantity填\"X\"，purchasePortions填\"X\"，packageSize填\"1\"\n2. 若用户标注\"X个\"：annotatedQuantity填\"X\"，purchasePortions填\"X\"，packageSize填\"1\"\n3. 仅当截图明确显示\"每份含X个\"时，才填写真实的packageSize值，purchasePortions=annotatedQuantity÷packageSize，若无法整除则向上取整\n4. 所有数量相关字段（packageSize、annotatedQuantity、purchasePortions）均为String类型，无法识别或计算时返回空字符串\"\"，不得返回null\n\n二、购买平台识别规则：\n1. 识别到天猫logo/字样 → 填\"天猫\"\n2. 识别到淘宝/88VIP标识 → 填\"淘宝\"\n3. 识别到京东标识 → 填\"京东\"\n4. 识别到1688标识 → 填\"1688\"\n5. 识别到拼多多标识 → 填\"拼多多\"\n6. 无法识别平台时返回空字符串\"\"\n\n三、通用字段规则：\n1. itemName和itemBrandModel为必填字段，无法识别返回空字符串\"\"\n2. 所有String类型字段无法识别时均返回空字符串\"\"，不得返回null\n3. 确保输出严格符合JSON结构，不得包含额外解释内容"
+  },
+  "createdAt": 1780565379495,
+  "updatedAt": 1780639476043,
+  "createdBy": 7633616648183893183
+}

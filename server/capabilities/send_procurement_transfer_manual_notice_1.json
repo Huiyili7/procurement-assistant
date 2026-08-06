@@ -1,0 +1,60 @@
+{
+  "id": "send_procurement_transfer_manual_notice_1",
+  "pluginKey": "@official-plugins/send-feishu-message",
+  "pluginVersion": "1.0.27",
+  "name": "采购需求转人工时通知经办人",
+  "description": "当采购需求转人工处理时，给采购经办人谢绍星发送飞书通知，包含采购需求详情、对话历史和转人工原因，优化排版后信息更清晰易读，提供完整上下文信息。",
+  "icon": "",
+  "paramsSchema": {
+    "required": [
+      "procurement_no",
+      "procurement_material",
+      "procurement_project",
+      "submiter_id",
+      "conversation_history",
+      "transfer_reason"
+    ],
+    "type": "object",
+    "properties": {
+      "procurement_material": {
+        "description": "采购物料信息",
+        "type": "string"
+      },
+      "procurement_project": {
+        "description": "采购所属项目",
+        "type": "string"
+      },
+      "submiter_id": {
+        "type": "string",
+        "description": "需求提报人用户ID"
+      },
+      "conversation_history": {
+        "description": "对话历史记录",
+        "type": "string"
+      },
+      "transfer_reason": {
+        "description": "转人工处理的原因",
+        "type": "string"
+      },
+      "procurement_no": {
+        "description": "采购需求编号",
+        "type": "string"
+      }
+    }
+  },
+  "formValue": {
+    "sender": "bot",
+    "buttons": [],
+    "title": {
+      "title": "采购需求转人工处理通知",
+      "color": "#165DFF"
+    },
+    "content": "## 📥 采购需求转人工处理通知\n\n### 📋 采购需求详情\n**需求编号：** {{input.procurement_no}}\n**物料信息：** {{input.procurement_material}}\n**所属项目：** {{input.procurement_project}}\n**提报人：** <person id=\"{{input.submiter_id}}\">\n\n### 💬 对话历史\n{{input.conversation_history}}\n\n### ⚠️ 转人工原因\n{{input.transfer_reason}}\n\n请尽快跟进处理该采购需求。",
+    "receiverUserList": [
+      "1786247695118416"
+    ]
+  },
+  "createdAt": 1778218624856,
+  "updatedAt": 1778323131888,
+  "createdBy": 7633616648183893183
+}

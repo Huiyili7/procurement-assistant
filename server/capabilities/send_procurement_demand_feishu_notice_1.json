@@ -1,0 +1,100 @@
+{
+  "id": "send_procurement_demand_feishu_notice_1",
+  "pluginKey": "@official-plugins/send-feishu-message",
+  "pluginVersion": "1.0.27",
+  "name": "采购需求飞书通知",
+  "description": "发送采购需求相关的飞书通知给采购执行人和需求提报人，包含需求编号、物料信息、项目信息、提报人、联系电话、收货地址、提报时间、商品链接等关键信息，支持操作按钮，采用Lark Markdown格式展示，与转人工通知卡片风格一致，新增采购截图链接展示功能",
+  "icon": "",
+  "paramsSchema": {
+    "required": [
+      "receiver_users",
+      "demand_no",
+      "material_info",
+      "project_info",
+      "operator",
+      "operate_type",
+      "detail_url",
+      "item_link",
+      "requester",
+      "request_time"
+    ],
+    "type": "object",
+    "properties": {
+      "contact_phone": {
+        "description": "联系电话",
+        "type": "string"
+      },
+      "request_time": {
+        "description": "提报时间",
+        "type": "string"
+      },
+      "operator": {
+        "description": "操作人姓名",
+        "type": "string"
+      },
+      "detail_url": {
+        "type": "string",
+        "description": "采购需求详情页链接"
+      },
+      "item_link": {
+        "type": "string",
+        "description": "商品链接"
+      },
+      "receiver_users": {
+        "description": "接收人用户ID列表（采购执行人和需求提报人）",
+        "items": {
+          "description": "用户ID",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "delivery_address": {
+        "type": "string",
+        "description": "收货地址"
+      },
+      "material_info": {
+        "description": "物料信息（如名称、规格、数量等）",
+        "type": "string"
+      },
+      "demand_no": {
+        "description": "采购需求编号",
+        "type": "string"
+      },
+      "screenshot_url": {
+        "description": "采购截图链接（可选）",
+        "type": "string"
+      },
+      "requester": {
+        "type": "string",
+        "description": "提报人姓名"
+      },
+      "operate_type": {
+        "type": "string",
+        "description": "操作类型（如新建、提交、审批通过等）"
+      },
+      "project_info": {
+        "description": "所属项目信息",
+        "type": "string"
+      }
+    }
+  },
+  "formValue": {
+    "receiverUserList": "{{input.receiver_users}}",
+    "buttons": [
+      {
+        "url": "{{input.detail_url}}",
+        "style": "primary",
+        "text": "查看详情"
+      }
+    ],
+    "sender": "bot",
+    "title": {
+      "title": "采购需求{{input.operate_type}}通知",
+      "color": "#165DFF"
+    },
+    "content": "@<at id=\"{{input.receiver_users}}\"> 新的采购需求待处理\n\n## 📋 采购需求{{input.operate_type}}通知\n\n**需求编号：** {{input.demand_no}}\n**物料信息：** {{input.material_info}}\n**商品链接：** {{input.item_link}}\n**所属项目：** {{input.project_info}}\n**提报人：** {{input.requester}}\n**联系电话：** {{input.contact_phone}}\n**收货地址：** {{input.delivery_address}}\n**提报时间：** {{input.request_time}}\n**操作类型：** {{input.operate_type}}\n**操作人：** {{input.operator}}\n**采购截图：** [点击查看截图]({{input.screenshot_url}})"
+  },
+  "createdAt": 1778206553844,
+  "updatedAt": 1780647020490,
+  "createdBy": 7633616648183893183
+}

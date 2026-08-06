@@ -1,0 +1,52 @@
+{
+  "id": "procurement_feishu_group_create_1",
+  "pluginKey": "@official-plugins/feishu-group-create",
+  "pluginVersion": "1.0.15",
+  "name": "采购需求转人工时自动创建飞书群组",
+  "description": "在采购需求转人工处理时，自动创建包含需求提报人和采购经办人的飞书群组，方便直接沟通。",
+  "icon": "",
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "requester_id": {
+        "type": "string",
+        "description": "需求提报人的飞书用户ID"
+      },
+      "handler_id": {
+        "description": "采购经办人的飞书用户ID",
+        "type": "string"
+      },
+      "welcome_message": {
+        "type": "string",
+        "description": "入群欢迎消息，可包含采购需求相关提示信息"
+      },
+      "group_name": {
+        "type": "string",
+        "description": "飞书群组名称，建议格式：采购需求-{{需求编号}}沟通群"
+      },
+      "group_description": {
+        "description": "群组描述，说明群组用途和相关采购需求信息",
+        "type": "string"
+      }
+    },
+    "required": [
+      "group_name",
+      "requester_id",
+      "handler_id"
+    ]
+  },
+  "formValue": {
+    "owner": "1786247695118416",
+    "members": [
+      "1786247695118416",
+      "{{input.requester_id}}",
+      "{{input.handler_id}}"
+    ],
+    "welcomeMessage": "{{input.welcome_message}}",
+    "groupName": "{{input.group_name}}",
+    "groupDescription": "{{input.group_description}}"
+  },
+  "createdAt": 1778211624218,
+  "updatedAt": 1778211624218,
+  "createdBy": 7633616648183893183
+}
